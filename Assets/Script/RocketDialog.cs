@@ -7,14 +7,17 @@ public class RocketDialog : MonoBehaviour
     private float launchForceMultiplier = 2f; // Multiplier for how high the rocket flies
     public ClickCounter clickCounter;     // Reference to your ClickCounter to get highest CPS
 
+    [SerializeField]
+    private SpriteRenderer rocketFire;
+
     private bool hasLaunched = false;
 
     void Start()
     {
         if (rb == null)
             rb = GetComponent<Rigidbody2D>();
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; 
-
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rocketFire.enabled = false;
 
     }
 
@@ -25,6 +28,8 @@ public class RocketDialog : MonoBehaviour
         hasLaunched = true;
 
 
+        rocketFire.enabled = true;
+
 
         // Calculate force based on highest CPS
         float highestCPS = clickCounter ? clickCounter.GetHighestCPS() : 0f;
@@ -34,19 +39,19 @@ public class RocketDialog : MonoBehaviour
 
         Debug.Log("Rocket Launched with CPS: " + highestCPS);
     }
-    
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground") && hasLaunched)
         {
             Debug.Log("Rocket Hit the Ground!");
             hasLaunched = false;
+            rocketFire.enabled = false;
 
-      
             rb.linearVelocity = Vector2.zero;  // stop movement
             rb.angularVelocity = 0f;
-            rb.position = new Vector3(0, 0,-1);
-            GameManager.instance.timerText.text = "Again Click to reset?";;
+            rb.position = new Vector3(0, 0, -1);
+            GameManager.instance.timerText.text = "Again Click to reset?"; ;
             GameManager.instance.resetBtn.gameObject.SetActive(true);
 
         }
