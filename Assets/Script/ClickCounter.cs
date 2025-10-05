@@ -14,9 +14,12 @@ public class ClickCounter : MonoBehaviour
     private List<float> clickTimes = new List<float>();
     private float timeWindow = 1f;
     public int highestCPS = 0;
-    
-    
-    public int highScoreCPS;
+
+    void Start()
+    {
+        highestCPS = PlayerPrefs.GetInt("HighCPS", 0);
+    }
+
 
     public void OnClick()
     {
@@ -45,14 +48,14 @@ public class ClickCounter : MonoBehaviour
         if (PlayerPrefs.HasKey("HighCPS"))
         {
             int savedHighCPS = PlayerPrefs.GetInt("HighCPS");
-            if (highScoreCPS > savedHighCPS)
+            if (highestCPS > savedHighCPS)
             {
-                PlayerPrefs.SetInt("HighCPS", highScoreCPS);
+                PlayerPrefs.SetInt("HighCPS", highestCPS);
             }
         }
         else
         {
-            PlayerPrefs.SetInt("HighCPS", highScoreCPS);
+            PlayerPrefs.SetInt("HighCPS", highestCPS);
         }
         PlayerPrefs.Save();
     }
