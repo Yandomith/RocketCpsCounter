@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class RocketDialog : MonoBehaviour
 {
@@ -44,17 +45,22 @@ public class RocketDialog : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground") && hasLaunched)
         {
-            Debug.Log("Rocket Hit the Ground!");
-            hasLaunched = false;
-            rocketFire.enabled = false;
+            ResetRocket();
 
-            rb.linearVelocity = Vector2.zero;  // stop movement
-            rb.angularVelocity = 0f;
-            rb.position = new Vector3(0, 0, -1);
-            GameManager.instance.timerText.text = "Again Click to reset?"; ;
-            GameManager.instance.resetBtn.gameObject.SetActive(true);
+ 
 
         }
+    }
+
+    public void ResetRocket()
+    {
+        hasLaunched = false;
+        rocketFire.enabled = false;
+        rb.linearVelocity = Vector2.zero;  // stop movement
+        rb.angularVelocity = 0f;
+        rb.position = new Vector3(0, 0, -1);
+        GameManager.instance.timerText.text = "Again Click to reset?"; ;
+        GameManager.instance.resetBtn.gameObject.SetActive(true);
     }
 
 }

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private float countdown = 3f;
     private bool isCounting = false;
     public static GameManager instance;
-    
+
     public TextMeshProUGUI highScoreText;
 
     private void Awake()
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         clickCounter.clickCount = 0;
         countdown = 3f;
         isCounting = true;
-        
+
         clickButton.gameObject.SetActive(true);
         startButton.gameObject.SetActive(false);
         resetBtn.gameObject.SetActive(false);
@@ -88,13 +88,20 @@ public class GameManager : MonoBehaviour
         int finalCPS = clickCounter.GetCurrentCPS();
         Debug.Log("Final CPS: " + finalCPS);
 
-        // Wait 2 seconds before launching rocket
-        yield return new WaitForSeconds(2f);
+        // Wait 1 second before launching rocket
+        yield return new WaitForSeconds(1f);
 
         // Launch the rocket
         if (rocketDialog != null)
+        {
             rocketDialog.LaunchRocket();
+            if (clickCounter.GetHighestCPS() <= 0)
+            {
+                rocketDialog.ResetRocket();
+            }
+        }
     }
+
 
     public void Reset()
     {
